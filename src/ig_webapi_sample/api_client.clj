@@ -1,63 +1,43 @@
 (ns ig-webapi-sample.api-client
-  (:require [clj-http.client :as client]
-            [cheshire.core :as json]))
+  (:require [ig-webapi-sample.client.request :as request])
+  (:require [ig-webapi-sample.client.login :as login])
+  (:require [clj-http.client :as client])
+  (:import (ig_webapi_sample.client.request Context)))
 
-(def ^{:dynamic true} *clientToken* "")                     ; bind CST to a thread-local var
-(def ^{:dynamic true} *accountToken* "")                    ; bind X-SECURITY-TOKEN to a thread-local var
+(defn authenticate [username password apikey environment]
+  (login/login (Context. username password apikey environment)))
 
-(defn- add-sso-headers [headers]
-  (let [sso-headers {"CST" *clientToken* "X-SECURITY-TOKEN" *accountToken*}]
-    (conj headers sso-headers)))
+(defn get-positions [app]
+  (request/get-generator app "/positions" 2))
 
-(defn- get-url [href]
-  (str "https://net-api.ig.com/gateway/deal" href))
+(defn get-working-orders [app]
+  (request/get-generator app "/workingorders" 2))
 
-(defn- wrap-create-api-request
-  [client-fn]
-  (fn [body headers]
-    (let [request {:body         (json/encode body)
-                   :headers      headers
-                   :conn-timeout 10000
-                   :content-type :json
-                   :accept       :json
-                   :as           :json
-                   :insecure?    true}]
-      (println (str "Creating request: " json/encode request))
-      (client-fn request))))
+(defn get-open-sprints [app]
+  (request/get-generator app "/positions/sprintmarkets" 2))
 
-(defn- wrap-enrich-api-response
-  [client-fn]
-  (fn [request]
-    (let [response (client-fn request)]
-      (assoc response :date (java.util.Date.)))))
+(defn get-watchlists [app]
+  (request/get-generator app "/watchlists" 1))
 
-;(defn- wrap-api-request
-;  [request]
-;  (-> request
-;      wrap-create-api-request
-;      wrap-enrich-api-response))
+(defn get-accounts [app]
+  (request/get-generator app "/accounts" 1))
 
-(defn- http-post
-  "Send an HTTP POST request"
-  [href body headers]
-  (client/post (get-url href) body headers))
+(defn get-transactions [app]
+  (request/get-generator app "/history/transactions" 2))
 
-(defn- http-get
-  "Send an HTTP GET request"
-  [href headers]
-  (client/get (get-url href) headers))
+(defn get-applications [app]
+  (request/get-generator app "/operations/application" 1))
 
-(def wrap-api-request
-  (-> http-post
-      wrap-create-api-request
-      wrap-enrich-api-response))
+(defn get-epics [app epic]
+  (request/get-generator app (str "/markets/" epic)  3))
 
-; API calls
-(defn login [username password apikey]
-  (let [body {"identifier" username, "password" password, "encryptedPassword" false}
-        headers {"X-IG-API-KEY" apikey, "VERSION" 2}]
-    (wrap-api-request "/session" body headers)))
+(defn get-market-sentiment [app marketId]
+  (request/get-generator app (str "/clientsentiment/" marketId) 1))
 
-(defn getMarketData [epic apikey]
-  (let [headers {"X-IG-API-KEY" apikey, "VERSION" 1}]
-    (wrap-api-request (http-get (str "/markets/" epic) headers))))
+(defn find-epic [app search-term]
+  (request/get-with-query-params-generator app "/markets" 1 {"searchTerm" search-term }))
+
+(defrecord Otc-limit-order [direction epic size level expiry currencyCode forceOpen orderType])
+
+(defn create-otc-order [app body]
+  (request/post-generator app "/positions/otc" (client/json-encode body)  2))
