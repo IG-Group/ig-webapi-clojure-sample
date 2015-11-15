@@ -9,8 +9,8 @@
     (println "Syntax: <username> <password> <api key> [:test|:uat|:demo|:live]")
     (do
       (println ">>> Authenticating user" (first args))
-      (pprint (apiclient/authenticate (first args) (second args) (nth args 2) (nth args 3)))
-
-      (println ">>> Retrieving positions for accountId=" (:currentAccountId @apiclient/context))
-      (let [response (apiclient/get-positions @apiclient/context)]
-        (pprint response)))))
+      (let [response (apiclient/authenticate (first args) (second args) (nth args 2) (nth args 3))]
+        (pprint (:content response))
+        (println ">>> Retrieving positions for accountId=" (:currentAccountId (:context response)))
+        (pprint (apiclient/get-positions (:context response)))
+        ))))

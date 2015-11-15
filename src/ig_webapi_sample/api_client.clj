@@ -2,14 +2,10 @@
   (:require [ig-webapi-sample.client.request :as request])
   (:require [ig-webapi-sample.client.login :as login])
   (:require [clj-http.client :as client])
-  (:import (ig_webapi_sample.client.request Context)))
-
-(def context (atom nil))
-(defn set-context [new-context]
-  (reset! context new-context))
+  (:import (ig_webapi_sample.client.login LoginRequest)))
 
 (defn authenticate [username password apikey environment]
-  (set-context (login/login (Context. username password apikey environment))))
+  (login/login (LoginRequest. username password apikey environment)))
 
 (defn get-positions [context]
   (request/get-generator context "/positions" 2))
