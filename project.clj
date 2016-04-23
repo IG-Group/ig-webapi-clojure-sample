@@ -4,7 +4,7 @@
   :license {:name "BSD-3"
             :url "http://opensource.org/licenses/BSD-3-Clause"}
   :dependencies [[org.clojure/clojure "1.7.0"]
-                          [clj-http "2.0.0"]
-                          [cheshire "5.5.0"]
-                 [com.lightstreamer/sdk.client.java.se "5.1.1.1623.2"]]
+                 [clj-http "2.0.0"]
+                 [cheshire "5.5.0"]]
+  :resource-paths ["lib/*"]
   :main ig-webapi-sample.api-sample)
