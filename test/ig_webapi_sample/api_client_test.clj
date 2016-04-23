@@ -4,7 +4,7 @@
 
 (deftest login-test
   (testing "Authenticate a user."
-    (let [response (apiclient/authenticate "lucasigm" "AbcAbc123" "9621d917dbc07c072cec9306805d067dec50e562" :test)]
-      (is (= "lucasigm" (:identifier response)))
-      (is (= "100092153" (:clientId response))))
-    ))
+    (let [response (apiclient/authenticate "myuser" "mypwd" "myapikey" :demo)]
+      (is (= "100000000" (:clientId (:content response))))
+      (is (= "CFD" (:accountType (:content response))))
+      )))

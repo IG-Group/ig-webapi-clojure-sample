@@ -23,8 +23,10 @@
 (defn login [request]
   (let [response (login-request request 2)]
     (if (= (:status response) 200)
-      ({:content (:body response)
+      {:content (:body response)
         :context {:CST         (:CST (:headers response))
                   :XST         (:X-SECURITY-TOKEN (:headers response))
-                  :environment (:environment request)}}
-        ))))
+                  :environment (:environment request)
+                  :apikey      (:apikey request)}
+        }
+      )))
