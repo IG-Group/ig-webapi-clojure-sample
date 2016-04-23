@@ -13,4 +13,6 @@
         (pprint (:content response))
         (println ">>> Retrieving positions for accountId=" (:currentAccountId (:content response)))
         (pprint (apiclient/get-positions (:context response)))
+        (println ">>> Retrieving market details")
+        (pprint (apiclient/get-markets (:context response) "KA.D.3UKSLN.CASH.IP" ))
         ))))

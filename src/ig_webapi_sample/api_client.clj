@@ -22,14 +22,17 @@
 (defn get-accounts [context]
   (request/get-generator context "/accounts" 1))
 
-(defn get-transactions [context]
-  (request/get-generator context "/history/transactions" 2))
+(defn get-transactions [context type]
+  (request/get-with-query-params-generator context "/history/transactions" 2 {"type" type }))
 
 (defn get-applications [context]
-  (request/get-generator context "/operations/contextlication" 1))
+  (request/get-generator context "/operations/application" 1))
 
-(defn get-epics [context epic]
+(defn get-market [context epic]
   (request/get-generator context (str "/markets/" epic)  3))
+
+(defn get-markets [context epics]
+  (request/get-with-query-params-generator context "/markets"  2 {"epics" epics}))
 
 (defn get-market-sentiment [context marketId]
   (request/get-generator context (str "/clientsentiment/" marketId) 1))
