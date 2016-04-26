@@ -6,7 +6,7 @@
 
 (defn -main [& args]
   (if (not= (count args) 4)
-    (println "Syntax: <username> <password> <api key> [:test|:uat|:demo|:live]")
+    (println "Syntax: <username> <password> <api key> [:demo|:live]")
     (do
       (println ">>> Authenticating user" (first args))
       (let [response (apiclient/authenticate (first args) (second args) (nth args 2) (nth args 3))]

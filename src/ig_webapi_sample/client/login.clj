@@ -27,5 +27,6 @@
         :context {:CST         (:CST (:headers response))
                   :XST         (:X-SECURITY-TOKEN (:headers response))
                   :environment (:environment request)
-                  :apikey (:apikey request)}}
-        )))
+                  :apikey      (:apikey request)}
+        }
+      )))
