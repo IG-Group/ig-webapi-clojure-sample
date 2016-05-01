@@ -2,6 +2,7 @@
   (:use [clojure.core]
         [clojure.pprint] :reload-all)
   (:require [ig-webapi-sample.api-client :as apiclient])
+  (:require [ig-webapi-sample.api-streaming-client :as api-streaming-client])
   (:gen-class :main true))
 
 (defn -main [& args]
@@ -11,6 +12,8 @@
       (println ">>> Authenticating user" (first args))
       (let [response (apiclient/authenticate (first args) (second args) (nth args 2) (nth args 3))]
         (pprint (:content response))
+        (println ">>> Connecting to Lightstreamer")
+        (pprint (api-streaming-client/login (:context response) (:currentAccountId (:content response)) (:lightstreamerEndpoint (:content response))))
         (println ">>> Retrieving positions for accountId=" (:currentAccountId (:content response)))
         (pprint (apiclient/get-positions (:context response)))
         (println ">>> Retrieving market details")
