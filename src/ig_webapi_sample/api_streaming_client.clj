@@ -1,30 +1,22 @@
 (ns ig-webapi-sample.api-streaming-client
-  (:import (com.lightstreamer.ls_client LSClient))
-  (:import (com.lightstreamer.ls_client ConnectionInfo))
-  (:import (com.lightstreamer.ls_client ExtendedConnectionListener)))
+  (:require [ig-webapi-sample.lsclient.connection-listener-adapter :as connection-listener])
+  (:import [com.lightstreamer.ls_client LSClient ConnectionInfo]))
 
 (defn- create-connection-info [context username lsendpoint]
-  (let [cxInfo ConnectionInfo.]
-    (.user cxInfo username)
-    (.password cxInfo (str "CST-" (:CST context) "|XST-" (:XST context)))
-    (.pushServerUrl cxInfo lsendpoint)
+  (let [cxInfo (ConnectionInfo.)]
+    (set! (.user cxInfo) username)
+    (set! (.password cxInfo) (str "CST-" (:CST context) "|XST-" (:XST context)))
+    (set! (.pushServerUrl cxInfo) lsendpoint)
     cxInfo))
 
-(defn- create-connection-listener [context]
-  (nil))
+(defn- create-connection-listener []
+  (connection-listener/create))
 
-(defn- login-request [context username lsendpoint]
+(defn- connect [context username lsendpoint]
+  (println ">>> Connecting to Lightstreamer with user=" username)
   (let [lsclient (LSClient.)]
-    (.openConnection lsclient (create-connection-info context username lsendpoint) (create-connection-listener context))
+    (.openConnection lsclient (create-connection-info context username lsendpoint) (create-connection-listener))
     lsclient))
 
-(defn login [context username lsendpoint]
-  (let [response (login-request context username lsendpoint)]
-    (if (= (:status response) 200)
-      {:content (:body response)
-       :context {:CST         (:CST (:headers response))
-                 :XST         (:X-SECURITY-TOKEN (:headers response))
-                 :environment (:environment request)
-                 :apikey      (:apikey request)}
-       }
-      )))
+(defn connect-new-thread [context username lsendpoint]
+  (future (connect context username lsendpoint)))
