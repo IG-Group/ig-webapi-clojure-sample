@@ -12,6 +12,6 @@
     (onActivityWarning [this value] (println "onActivityWarning value=" value))
     (onClose [this] (println "onClose"))
     (onEnd [this value] (println "onEnd value=" value))
-    ;(onFailure ^void [this ^PushServerException exception] (println "onServerFailure e=" exception))
-    ;(onFailure [this ^PushConnException exception] (println "onConnFailure e=" exception))
+    (^void onFailure [this ^PushServerException exception] (println "onServerFailure e=" exception))
+    (^void onFailure [this ^PushConnException exception] (println "onConnFailure e=" exception))
     ))
