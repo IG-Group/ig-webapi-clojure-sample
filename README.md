@@ -1,7 +1,7 @@
 # ig-webapi-clojure-sample
 
 IG WebAPI Clojure sample
- This sample authenticates a user via the IG REST API and retrieves a list of positions.
+ This sample authenticates a user via the IG REST API, subscribes to Lightstreamer heartbeat messages and retrieves a list of positions and market data.
  See api-sample.clj for further details.
 
 To run in the REPL:
