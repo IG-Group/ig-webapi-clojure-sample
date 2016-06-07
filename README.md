@@ -1,4 +1,5 @@
 # ig-webapi-clojure-sample
+[![Build Status](https://travis-ci.org/IG-Group/ig-webapi-clojure-sample.svg?branch=master)](https://travis-ci.org/IG-Group/ig-webapi-clojure-sample)
 
 IG WebAPI Clojure sample
  This sample authenticates a user via the IG REST API, subscribes to Lightstreamer heartbeat messages and retrieves a list of positions and market data.
