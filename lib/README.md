@@ -1,0 +1,1 @@
+This folder should contain Lighstreamer Java Client library. Please download the [latest Lightstreamer distribution](http://www.lightstreamer.com/download) and copy the jar file from the Lighstreamer SDK for Java Clients into this folder.
