@@ -1,3 +1,9 @@
+🚧 Notice
+
+Date: 2024 August
+
+This repository is now deprecated and may be removed/replaced at a later date.
+
 # ig-webapi-clojure-sample
 [![Build Status](https://travis-ci.org/IG-Group/ig-webapi-clojure-sample.svg?branch=master)](https://travis-ci.org/IG-Group/ig-webapi-clojure-sample)
 
